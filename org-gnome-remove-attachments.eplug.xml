@@ -4,7 +4,7 @@
     type="shlib"
     id="org.gnome.plugin.attachments.remove"
     location="@PLUGINDIR@/liborg-gnome-remove-attachments.so"
-    _name="Remote attachments">
+    _name="Remove attachments">
     <_description>A plugin which allows to remove attachments from message.</_description>
     <author name="Rex Tsai" email="chihchun@debian.org.tw"/>
 

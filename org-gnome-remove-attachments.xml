@@ -1,6 +1,6 @@
 <Root>
   <commands>
-    <cmd name="EPRARemoveAttachments" _label="_Remote attachments"
+    <cmd name="EPRARemoveAttachments" _label="_Remove attachments"
       _tip="Remove attachments."
       pixtype="stock" pixname="stock_delete"/>
   </commands>

@@ -75,12 +75,12 @@ remove_attachments (GPtrArray *uid_array, struct _CamelFolder *folder)
             for (j = 0; j < parts; j++) {
                 CamelMimePart *mpart = camel_multipart_get_part((CamelMultipart *)containee, j);
                 const char *disposition = camel_mime_part_get_disposition(mpart);
-                if (disposition && !strcmp(disposition, "attachment")) {
+                if (disposition && (!strcmp(disposition, "attachment") || !strcmp(disposition, "inline"))) {
                     char *desc;
                     const char *filename;
 
                     filename = camel_mime_part_get_filename(mpart);
-                    g_warning ("Deleteing \"%s\"\n", filename);
+                    g_warning ("Deleting \"%s\"\n", filename);
 
                     desc = g_strdup_printf(_("File \"%s\" has been removed."), filename);
                     camel_mime_part_set_disposition (mpart, "inline");
