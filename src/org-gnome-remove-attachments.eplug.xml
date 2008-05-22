@@ -3,10 +3,10 @@
   <e-plugin
     type="shlib"
     id="org.gnome.plugin.attachments.remove"
-    location="@PLUGINDIR@/liborg-gnome-remove-attachments.so"
+    location="@PLUGINDIR@/liborg-gnome-evolution-remove-attachments.so"
     _name="Remove attachments">
     <_description>A plugin which allows to remove attachments from message.</_description>
-    <author name="Rex Tsai" email="chihchun@debian.org.tw"/>
+    <author name="Rex Tsai" email="chihchun@kalug.linux.org.tw"/>
 
     <!-- hook into the uri popup menu -->
     <hook class="org.gnome.evolution.mail.popup:1.0">

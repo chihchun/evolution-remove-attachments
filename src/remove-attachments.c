@@ -25,7 +25,6 @@
 #include "mail/em-menu.h"
 #include "mail/em-popup.h"
 #include "mail/em-utils.h"
-#include <calendar/common/authentication.h>
 
 typedef struct {
 	ECal *client;
