@@ -1,0 +1,3 @@
+2006-10-21  Rex Tsai <chihchun@debian.org.tw>
+	* remove-attachments.c: implemented a plugin for remove attachments of
+	selected mails.

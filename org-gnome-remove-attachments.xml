@@ -1,0 +1,16 @@
+<Root>
+  <commands>
+    <cmd name="EPRARemoveAttachments" _label="_Remote attachments"
+      _tip="Remove attachments."
+      pixtype="stock" pixname="stock_delete"/>
+  </commands>
+
+  <menu>
+    <placeholder name="MessagePlaceholder">	  
+      <submenu name="Message">
+	  <separator f="" name=""/>
+	  <menuitem name="EPRARemoveAttachments" verb=""/>
+      </submenu>
+   </placeholder>
+  </menu>
+</Root>
