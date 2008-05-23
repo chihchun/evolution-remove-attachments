@@ -13,7 +13,8 @@ DPKG_DIST= \
 	     debian/copyright \
 	     debian/compat \
 	     debian/docs \
-	     debian/control
+	     debian/control \
+	     debian/evolution-remove-attachments.install
 
 EXTRA_DIST = \
 	$(INTLTOOL)		\
