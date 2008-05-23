@@ -1,6 +1,3 @@
-/* Copyright (C) 2004-2006 Novell, Inc */
-/* Authors: Rex Tsai */
-
 /* This file is licensed under the GNU GPL v2 or later */
 /* This code base is from mail-to-task and the other evolution plugins */
 
