@@ -1,3 +1,5 @@
-2006-10-21  Rex Tsai <chihchun@debian.org.tw>
-	* remove-attachments.c: implemented a plugin for remove attachments of
-	selected mails.
+2008-05-23 Rex Tsai <chihchun@debian.org.tw>
+	* refinded the autotools and Makeifle
+	* applied patches from Hank Hampel <hank@nomaam.de>
+2006-10-21 Rex Tsai <chihchun@debian.org.tw>
+	* remove-attachments.c: implemented a plugin for remove attachments of selected mails.
