@@ -1,0 +1,8 @@
+This is a tiny plugin for saving disk space by removing
+attachments from the mails.
+
+Please refer to this url for the idea.
+http://people.debian.org.tw/~chihchun/2006/10/23/remove-attachments-plugin-for-evolution-001/
+
+Tested on:
+Evolution 2.22 - Debian Sid

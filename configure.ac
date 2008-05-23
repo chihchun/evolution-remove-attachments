@@ -121,5 +121,6 @@ AC_SUBST_FILE(EVO_SERVER_RULE)
 AC_CONFIG_FILES([
 Makefile
 src/Makefile
+po/Makefile
 ])
 AC_OUTPUT
