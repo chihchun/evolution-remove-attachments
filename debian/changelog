@@ -1,0 +1,5 @@
+evolution-remove-attachments (0.0.2-1) unstable; urgency=low
+
+  * Initial release. 
+
+ -- Rex Tsai <chihchun@debian.org.tw>  Fri, 23 May 2008 13:33:56 +0800
