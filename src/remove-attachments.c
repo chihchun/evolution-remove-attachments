@@ -13,7 +13,6 @@
 #include <stdio.h>
 
 #include <gconf/gconf-client.h>
-#include <libecal/e-cal.h>
 #include <libedataserverui/e-source-selector-dialog.h>
 #include <camel/camel-folder.h>
 #include <camel/camel-medium.h>
@@ -22,15 +21,11 @@
 #include <camel/camel-stream.h>
 #include <camel/camel-stream-mem.h>
 #include <camel/camel-utf8.h>
+
 #include "mail/em-menu.h"
 #include "mail/em-popup.h"
 #include "mail/em-utils.h"
 
-typedef struct {
-	ECal *client;
-	struct _CamelFolder *folder;
-	GPtrArray *uids;
-} AsyncData;
 
 void org_gnome_remove_attachments (void *ep, EMPopupTargetSelect *t);
 void org_gnome_remove_attachments_menu (EPlugin *ep, EMMenuTargetSelect *t);
