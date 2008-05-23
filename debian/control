@@ -1,7 +1,7 @@
 Source: evolution-remove-attachments
 Section: gnome
 Priority: optional
-Maintainer: Rex Tsai <chihchun@kalug.linux.org.tw>
+Maintainer: Rex Tsai <chihchun@debian.org.tw>
 Build-Depends: debhelper (>= 5), 
                dpkg-dev (>= 1.14.16),
                autotools-dev, 
