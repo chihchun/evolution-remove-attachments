@@ -1,4 +1,4 @@
-AC_INIT([evolution-remove-attachments], [0.0.2], chihchun@kalug.linux.org.tw)
+AC_INIT([evolution-remove-attachments], [0.0.3], chihchun@kalug.linux.org.tw)
 AC_CONFIG_SRCDIR(src)
 
 AM_INIT_AUTOMAKE
