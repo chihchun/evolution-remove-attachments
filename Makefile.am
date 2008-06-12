@@ -19,6 +19,7 @@ DPKG_DIST= \
 EXTRA_DIST = \
 	$(INTLTOOL)		\
 	po/POTFILES.in		\
+	po/POTFILES		\
 	autogen.sh		\
 	ChangeLog
 
