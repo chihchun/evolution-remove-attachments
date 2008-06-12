@@ -1,5 +1,12 @@
+evolution-remove-attachments (0.0.3-1) unstable; urgency=low
+
+  * Rebulid the source tarball and removed the debian in the distribution list.
+  * Fixed the dependency on libedataserverui1.2-dev.
+
+ -- Rex Tsai <chihchun@kalug.linux.org.tw>  Thu, 12 Jun 2008 19:06:22 +0800
+
 evolution-remove-attachments (0.0.2) unstable; urgency=low
 
   * Initial release. 
 
- -- Rex Tsai <chihchun@debian.org.tw>  Fri, 23 May 2008 13:33:56 +0800
+ -- Rex Tsai <chihchun@kalug.linux.org.tw>  Fri, 23 May 2008 13:33:56 +0800
