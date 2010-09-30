@@ -29,9 +29,9 @@ static void action_mail_remove_attachment_cb (GtkAction *action, EMailReader *re
 static GtkActionEntry multi_selection_entries[] = {
     { "mail-remove-attachment",
         "stock_delete",
-        "_Remove attachments",
+        N_("_Remove attachments"),
         NULL,
-        "Remove attachment",
+        N_("Remove attachment"),
         G_CALLBACK (action_mail_remove_attachment_cb) },
 };
 
