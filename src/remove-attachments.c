@@ -1,43 +1,74 @@
-/* This file is licensed under the GNU GPL v2 or later */
-/* This code base is from mail-to-task and the other evolution plugins */
+/* This file is licensed under the GNU GPL v2 or later 
+ * This code base is from mail-to-task and the other evolution plugins 
+ *
+ * Authors:
+ * Rex Tsai <chihchun@kalug.linux.org.tw>
+ *
+ * Copyright (C) 2006 - 2010 Rex Tsai
+ */
 
 #ifdef HAVE_CONFIG_H
 #include "config.h"
 #endif
 
-#include <glib/gi18n-lib.h>
 #include <string.h>
 #include <stdio.h>
+#include <glib/gi18n-lib.h>
 
-#include <gconf/gconf-client.h>
-#include <libedataserverui/e-source-selector-dialog.h>
-#include <camel/camel-folder.h>
-#include <camel/camel-medium.h>
-#include <camel/camel-mime-message.h>
-#include <camel/camel-multipart.h>
-#include <camel/camel-stream.h>
-#include <camel/camel-stream-mem.h>
-#include <camel/camel-utf8.h>
+#include "e-util/e-config.h"
+#include "e-util/e-dialog-utils.h"
+#include "mail/e-mail-browser.h"
+#include "mail/e-mail-reader.h"
+#include "shell/e-shell-content.h"
+#include "shell/e-shell-view.h"
 
-#include "mail/em-menu.h"
-#include "mail/em-popup.h"
-#include "mail/em-utils.h"
+gboolean mail_browser_init (GtkUIManager *ui_manager, EMailBrowser *browser);
+gboolean mail_shell_view_init (GtkUIManager *ui_manager, EShellView *shell_view);
+static void action_mail_remove_attachment_cb (GtkAction *action, EMailReader *reader);
 
-
-void org_gnome_remove_attachments (void *ep, EMPopupTargetSelect *t);
-void org_gnome_remove_attachments_menu (EPlugin *ep, EMMenuTargetSelect *t);
+static GtkActionEntry multi_selection_entries[] = {
+    { "mail-remove-attachment",
+        "stock_delete",
+        "_Remove attachments",
+        NULL,
+        "Remove attachment",
+        G_CALLBACK (action_mail_remove_attachment_cb) },
+};
 
 static void
-copy_uids (char *uid, GPtrArray *uid_array) 
+setup_actions (EMailReader *reader, GtkUIManager *ui_manager)
 {
-	g_ptr_array_add (uid_array, g_strdup (uid));
+    GtkActionGroup *action_group;
+
+    action_group = gtk_action_group_new ("mail-remove-attachments");
+    gtk_action_group_add_actions ( action_group, multi_selection_entries, G_N_ELEMENTS (multi_selection_entries), reader);
+    gtk_ui_manager_insert_action_group (ui_manager, action_group, 0);
+    g_object_unref (action_group);
+}
+
+gboolean mail_browser_init (GtkUIManager *ui_manager, EMailBrowser *browser)
+{
+    setup_actions (E_MAIL_READER (browser), ui_manager);
+    return TRUE;
+}
+
+gboolean mail_shell_view_init (GtkUIManager *ui_manager, EShellView *shell_view)
+{
+    EShellContent *shell_content;
+    shell_content = e_shell_view_get_shell_content (shell_view);
+    setup_actions (E_MAIL_READER (shell_content), ui_manager);
+    return TRUE;
 }
 
 static void
-remove_attachments (GPtrArray *uid_array, struct _CamelFolder *folder)
+action_mail_remove_attachment_cb (GtkAction *action, EMailReader *reader)
 {
-    GPtrArray *uids = uid_array;
+    CamelFolder *folder;
+    GPtrArray *uids;
     int i,j;
+
+    folder = e_mail_reader_get_folder (reader);
+    uids = e_mail_reader_get_selected_uids (reader);
 
     camel_folder_freeze(folder);
     for (i = 0; i < (uids ? uids->len : 0); i++) {
@@ -45,7 +76,7 @@ remove_attachments (GPtrArray *uid_array, struct _CamelFolder *folder)
         CamelDataWrapper *containee;
         char *uid;
         gboolean deleted = FALSE;
-        
+
         uid = g_ptr_array_index (uids, i);
 
         /* retrieve the message from the CamelFolder */
@@ -54,12 +85,12 @@ remove_attachments (GPtrArray *uid_array, struct _CamelFolder *folder)
             continue;
         }
 
-	containee = camel_medium_get_content_object((CamelMedium *)message);
-	if (containee == NULL) {
+        containee = camel_medium_get_content_object((CamelMedium *)message);
+        if (containee == NULL) {
             continue;
         }
 
-	if (CAMEL_IS_MULTIPART(containee)) {
+        if (CAMEL_IS_MULTIPART(containee)) {
             int parts;
 
             parts = camel_multipart_get_number((CamelMultipart *)containee);
@@ -71,9 +102,7 @@ remove_attachments (GPtrArray *uid_array, struct _CamelFolder *folder)
                     const char *filename;
 
                     filename = camel_mime_part_get_filename(mpart);
-                    g_warning ("Deleting \"%s\"\n", filename);
-
-                    desc = g_strdup_printf(_("File \"%s\" has been removed."), filename);
+                    desc = g_strdup_printf("File \"%s\" has been removed.", filename);
                     camel_mime_part_set_disposition (mpart, "inline");
                     camel_mime_part_set_content(mpart, desc, strlen(desc), "text/plain");
                     camel_mime_part_set_content_type(mpart, "text/plain");
@@ -82,6 +111,7 @@ remove_attachments (GPtrArray *uid_array, struct _CamelFolder *folder)
             }
 
             if(deleted) {
+                // copy the original message with the deleted attachment.
                 CamelMessageInfo *info, *newinfo;
                 guint32 flags;
                 CamelException *ex = camel_exception_new();
@@ -90,12 +120,12 @@ remove_attachments (GPtrArray *uid_array, struct _CamelFolder *folder)
                 newinfo = camel_message_info_new_from_header(NULL, ((CamelMimePart *)message)->headers);
                 flags = camel_folder_get_message_flags(folder, uid);
 
-                // make a copy.
+                // make a copy of the message.
                 camel_message_info_set_flags(newinfo, flags, flags);
                 camel_folder_append_message(folder, message, newinfo, NULL, ex);
                 
                 if (!camel_exception_is_set (ex)) {
-                    // marked to delete.
+                    // marked the original message deleted.
                     camel_message_info_set_flags(info, CAMEL_MESSAGE_DELETED, CAMEL_MESSAGE_DELETED);
                     camel_folder_free_message_info(folder, info);
                 }
@@ -106,48 +136,4 @@ remove_attachments (GPtrArray *uid_array, struct _CamelFolder *folder)
     }
     camel_folder_sync(folder, FALSE, NULL);
     camel_folder_thaw(folder);
-}
-
-
-void
-org_gnome_remove_attachments (void *ep, EMPopupTargetSelect *t)
-{
-	GPtrArray *uid_array = NULL;
-
-	if (t->uids->len > 0) {
-		/* FIXME Some how in the thread function the values inside t->uids gets freed 
-		   and are corrupted which needs to be fixed, this is sought of work around fix for
-		   the gui inresponsiveness */
-		uid_array = g_ptr_array_new ();
-		g_ptr_array_foreach (t->uids, (GFunc)copy_uids, (gpointer) uid_array);
-	} else {
-		return;
-	}
-
-	remove_attachments (uid_array, t->folder);
-}
-
-void org_gnome_remove_attachments_menu (EPlugin *ep, EMMenuTargetSelect *t)
-{
-	GPtrArray *uid_array = NULL;
-
-	if (t->uids->len > 0) {
-		/* FIXME Some how in the thread function the values inside t->uids gets freed 
-		   and are corrupted which needs to be fixed, this is sought of work around fix for
-		   the gui inresponsiveness */
-		uid_array = g_ptr_array_new ();
-		g_ptr_array_foreach (t->uids, (GFunc)copy_uids, (gpointer) uid_array);
-	} else {
-		return;
-	}
-
-	remove_attachments (uid_array, t->folder);
-}
-
-int e_plugin_lib_enable(EPluginLib *ep, int enable);
-
-int
-e_plugin_lib_enable(EPluginLib *ep, int enable)
-{
-	return 0;
 }

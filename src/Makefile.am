@@ -17,15 +17,13 @@ INCLUDES =							\
 	$< > $@
 
 plugindir = $(PLUGIN_INSTALL_DIR)
-plugin_DATA = org-gnome-remove-attachments.eplug \
-	org-gnome-remove-attachments.xml
+plugin_DATA = org-gnome-remove-attachments.eplug 
 plugin_LTLIBRARIES = liborg-gnome-evolution-remove-attachments.la
 
 liborg_gnome_evolution_remove_attachments_la_SOURCES = remove-attachments.c
 liborg_gnome_evolution_remove_attachments_la_LDFLAGS = -module -avoid-version 
 
-EXTRA_DIST = org-gnome-remove-attachments.eplug.xml \
-	     org-gnome-remove-attachments.xml
+EXTRA_DIST = org-gnome-remove-attachments.eplug.xml 
 
 BUILT_SOURCES = org-gnome-remove-attachments.eplug
 CLEANFILES = $(BUILT_SOURCES)
