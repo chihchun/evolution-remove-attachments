@@ -4,10 +4,10 @@ INCLUDES =							\
 	$$(pkg-config  --cflags evolution-plugin)		\
 	-I$(top_srcdir)
 
-%.eplug.in: %.eplug.xml
+%.eplug: %.eplug.xml.in
 	LC_ALL=C $(INTLTOOL_MERGE) -x -u /tmp $< $@
 
-%.eplug: %.eplug.in
+%.eplug.xml.in: %.eplug.xml.in.in
 	sed -e "s%+PLUGIN_INSTALL_DIR+%$(PLUGIN_INSTALL_DIR)%" \
 	-e "s%@PLUGINDIR@%$(PLUGIN_INSTALL_DIR)%" \
 	-e "s%+GETTEXT_PACKAGE+%$(GETTEXT_PACKAGE)%" \
@@ -17,7 +17,7 @@ INCLUDES =							\
 	$< > $@
 
 plugindir = $(PLUGIN_INSTALL_DIR)
-plugin_DATA = org-gnome-remove-attachments.eplug 
+plugin_DATA = org-gnome-remove-attachments.eplug
 plugin_LTLIBRARIES = liborg-gnome-evolution-remove-attachments.la
 
 liborg_gnome_evolution_remove_attachments_la_SOURCES = remove-attachments.c
@@ -25,6 +25,6 @@ liborg_gnome_evolution_remove_attachments_la_LDFLAGS = -module -avoid-version
 
 EXTRA_DIST = org-gnome-remove-attachments.eplug.xml 
 
-BUILT_SOURCES = org-gnome-remove-attachments.eplug
+BUILT_SOURCES = org-gnome-remove-attachments.eplug.xml.in
 CLEANFILES = $(BUILT_SOURCES)
 
