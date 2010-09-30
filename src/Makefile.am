@@ -22,6 +22,6 @@ liborg_gnome_evolution_remove_attachments_la_LDFLAGS = -module -avoid-version
 
 EXTRA_DIST = org-gnome-remove-attachments.eplug.xml.in.in
 
-# BUILT_SOURCES = org-gnome-remove-attachments.eplug.xml.in
-# CLEANFILES = $(BUILT_SOURCES)
+BUILT_SOURCES = org-gnome-remove-attachments.eplug
+CLEANFILES = $(BUILT_SOURCES)
 
