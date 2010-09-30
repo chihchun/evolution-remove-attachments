@@ -5,7 +5,7 @@ Maintainer: Rex Tsai <chihchun@kalug.linux.org.tw>
 Build-Depends: debhelper (>= 5), 
                dpkg-dev (>= 1.14.16),
                autotools-dev, 
-               evolution-dev (>=2.22.0),
+               evolution-dev (>=2.30.0),
                libedataserverui1.2-dev, 
                intltool, 
                libglade2-dev, 
@@ -17,8 +17,6 @@ Standards-Version: 3.8.0
 Package: evolution-remove-attachments
 Architecture: any
 Depends: ${shlibs:Depends}, ${misc:Depends}
-Conflicts: evolution (<< 2.22.0),
-           evolution (>= 2.23.0)
 Description: Evolution Remove Attachments Plugin
  This is a tiny plugin for saving disk space by removing
  attachments from the mails.

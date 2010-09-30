@@ -1,3 +1,7 @@
+2010-10-01 Rex Tsai <chihchun@kalug.linux.org.tw>
+	* migrated to Evo 2.30 APIs
+2008-06-12 Rex Tsai <chihchun@kalug.linux.org.tw>
+	* Debian package
 2008-05-23 Rex Tsai <chihchun@debian.org.tw>
 	* refinded the autotools and Makeifle
 	* applied patches from Hank Hampel <hank@nomaam.de>

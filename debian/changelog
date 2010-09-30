@@ -1,3 +1,9 @@
+evolution-remove-attachments (0.0.4-1) unstable; urgency=low
+
+  * New version for Evo 2.30.
+
+ -- Rex Tsai <chihchun@kalug.linux.org.tw>  Fri, 01 Oct 2010 06:53:46 +0800
+
 evolution-remove-attachments (0.0.3-1) unstable; urgency=low
 
   * Rebulid the source tarball and removed the debian in the distribution list.
