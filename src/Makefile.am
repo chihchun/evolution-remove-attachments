@@ -23,7 +23,7 @@ plugin_LTLIBRARIES = liborg-gnome-evolution-remove-attachments.la
 liborg_gnome_evolution_remove_attachments_la_SOURCES = remove-attachments.c
 liborg_gnome_evolution_remove_attachments_la_LDFLAGS = -module -avoid-version 
 
-EXTRA_DIST = org-gnome-remove-attachments.eplug.xml 
+EXTRA_DIST = org-gnome-remove-attachments.eplug.xml.in.in
 
 BUILT_SOURCES = org-gnome-remove-attachments.eplug.xml.in
 CLEANFILES = $(BUILT_SOURCES)
